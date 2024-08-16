@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  authentication-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '5001:5001'  
+    environment:
+      NODE_DOCKER_PORT: 5001
+      DB_USER: admin  
+      DB_PASSWORD: d@tabase
+      DB_NAME: login_db
+      DB_PORT: 3306
+    volumes:
+      - db-data:/var/lib/mysql
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: d@tabase
+      MYSQL_DATABASE: login_db
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: d@tabase
+    ports:
+      - '3306:3306'
+    volumes:
+      - db-data:/var/lib/mysql
+
+volumes:
+  db-data:
