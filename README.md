@@ -1,15 +1,11 @@
 <header>
 
 <!--
-  <<< Author notes: Course header >>>
-  Include a 1280×640 image, course title in sentence case, and a concise description in emphasis.
-  In your repository settings: enable template repository, add your 1280×640 social image, auto delete head branches.
-  Add your open source license, GitHub uses MIT license.
--->
+  <<< Author notes: Internships summary >>>
+  
+# All my internships Projects
 
-# GitHub Pages
-
-_Create a site or blog from your GitHub repositories with GitHub Pages._
+_All these projects are the summary of my two last internships and cover topics like Backend Development and Cybersecurity._
 
 </header>
 
@@ -20,55 +16,35 @@ _Create a site or blog from your GitHub repositories with GitHub Pages._
   Historic note: previous version checked the file path. Previous version checked the front matter formatting.
 -->
 
-## Step 4: Create a blog post
+## EMES Sarl Projects
 
-_Your home page is looking great! :cowboy_hat_face:_
+### Authentication features using NodeJS
+_The authentication procedure I wrote was a microservice manages user account access with password login, session creation and management, password updating and user account management at database level._
 
-GitHub Pages uses Jekyll. In Jekyll, we can create a blog by using specially named files and frontmatter. The files must be named `_posts/YYYY-MM-DD-title.md`. You must also include `title` and `date` in your frontmatter.
+You can find the complete code and readme regarding it by navigating to the authentication_app branch.
+I will continue working on it to improve it.
 
-**What is _frontmatter_?**: The syntax Jekyll files use is called YAML frontmatter. It goes at the top of your file and looks something like this:
+### OpenVAS Scanner implementation on a Kàthara network emulation
+_This project covers the use and the complety installation process of Kàthara and of GVM on a Linux Kali  machine and describe the process to perform a network or a target scan using the openvas tool._
 
-```yml
----
-title: "Welcome to my blog"
-date: 2019-01-20
----
-```
+You will find the complete configuration files and a more detailed readme is comin soon in the gvm branch.
 
-For more information about configuring front matter, see the [Jekyll frontmatter documentation](https://jekyllrb.com/docs/frontmatter/).
 
-### :keyboard: Activity: Create a blog post
+## CodeAlpha
 
-1. Browse to the `my-pages` branch.
-1. Click the `Add file` dropdown menu and then on `Create new file`.
-1. Name the file `_posts/YYYY-MM-DD-title.md`.
-1. Replace the `YYYY-MM-DD` with today's date, and change the `title` of your first blog post if you'd like.
-   > If you do edit the title, make sure there are hyphens between your words.
-   > If your blog post date doesn't follow the correct date convention, you'll receive an error and your site won't build. For more information, see "[Page build failed: Invalid post date](https://docs.github.com/en/pages/setting-up-a-github-pages-site-with-jekyll/troubleshooting-jekyll-build-errors-for-github-pages-sites)".
-1. Type the following content at the top of your blog post:
-   ```yaml
-   ---
-   title: "YOUR-TITLE"
-   date: YYYY-MM-DD
-   ---
-   ```
-1. Replace `YOUR-TITLE` with the title for your blog post.
-1. Replace `YYYY-MM-DD` with today's date.
-1. Type a quick draft of your blog post. Remember, you can always edit it later.
-1. Commit your changes to your branch.
-1. Wait about 20 seconds then refresh this page (the one you're following instructions from). [GitHub Actions](https://docs.github.com/en/actions) will automatically update to the next step.
+### A Phishing campaign awareness presentation 
+
+This presentation covers the basics comprehension that non experts but users of an IT systems should have about phishing attacks mainly the common types of attacks, the process of these attacks, the source and the countermeasures or best practices that should be adopted to mitigate the risk of thses attacks on the organization.
+
+### A network sniffer using Python
+
+This program is written in Python and is a network sniffer that is linked to an ARP spoofer that captures communication packets.  These packets are sent to the sniffer that analyzes them looking for any valuable information and displayed them if found. It use libraries like scapy, colorama, sys, etc.
+
 
 <footer>
 
 <!--
-  <<< Author notes: Footer >>>
-  Add a link to get support, GitHub status page, code of conduct, license link.
--->
-
 ---
 
-Get help: [Post in our discussion board](https://github.com/orgs/skills/discussions/categories/github-pages) &bull; [Review the GitHub status page](https://www.githubstatus.com/)
-
-&copy; 2023 GitHub &bull; [Code of Conduct](https://www.contributor-covenant.org/version/2/1/code_of_conduct/code_of_conduct.md) &bull; [MIT License](https://gh.io/mit)
-
+Written by Sp1der04 - 2024
 </footer>
