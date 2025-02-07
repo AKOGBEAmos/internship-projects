@@ -1,0 +1,34 @@
+ifconfig eth0 192.168.250.2 netmask 255.255.255.252 up
+
+echo -e " +++ updating repos  "
+chmod 1777 /tmp
+apt-get update --allow-unauthenticated
+
+echo -e " +++ installing iptables  "
+apt install -y iproute2 nano iptables
+
+# Configuration des routes
+ip route add 192.168.2.0/24 via 192.168.250.1 dev eth0
+ip route add 192.168.250.4/30 via 192.168.250.1 dev eth0
+
+# Configuration DNS
+echo "nameserver 8.8.8.8" | tee /etc/resolv.conf
+
+useradd -m -p k@thara adm1n -s /bin/bash
+
+echo -e " +++ [+] installing and configuring ssh  "
+apt-get install openssh-server -y
+service ssh start
+
+echo -e " +++ installing netcat "
+apt-get install netcat-traditional -y
+
+#autoriser le traffic sortant SSH
+iptables -A FORWARD -p tcp --dport 22 -o eth2 -j ACCEPT
+
+#autoriser le traffic sortant DNS
+iptables -I FORWARD -p udp --dport 53 -o eth2 -d 192.168.250.5 -j ACCEPT
+
+# Pour bloquer tout le traffic ICMP entrant sauf les echo-reply provenant d'internet
+iptables -A FORWARD -i eth2 -p icmp --icmp-type echo-reply -j ACCEPT
+iptables -A FORWARD -i eth2 -p icmp -j REJECT --reject-with icmp-host-unreachable

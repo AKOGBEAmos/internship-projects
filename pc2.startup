@@ -1,0 +1,5 @@
+ifconfig eth0 192.168.2.2 netmask 255.255.255.0 up
+ip route add 192.168.250.4/30 via 192.168.2.254 dev eth0
+ip route add 192.168.250.0/30 via 192.168.2.254
+
+echo "nameserver 8.8.8.8" | tee /etc/resolv.conf

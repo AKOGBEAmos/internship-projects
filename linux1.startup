@@ -1,0 +1,100 @@
+ifconfig eth0 192.168.2.1 netmask 255.255.255.0 up
+ip route add 192.168.250.4/30 via 192.168.2.254 dev eth0
+ip route add 192.168.250.0/30 via 192.168.2.254
+
+echo -e "+++ Updating repos" 
+chmod 1777 /tmp
+apt-get update --allow-unauthenticated
+
+echo -e "+++ Installing iptables"
+apt install -y iptables
+
+
+echo 'y' | apt-get install -y vsftpd
+
+echo -e "+++ Installing gcc"
+apt-get install -y gcc
+
+mkdir /var/ftp
+chown nobody:nogroup /var/ftp
+cp /etc/vsftpd.conf /etc/vsftpd.conf.bak
+sed -i 's/anonymous_enable=NO/anonymous_enable=YES/' /etc/vsftpd.conf
+echo "anon_root=/var/ftp/" >> /etc/vsftpd.conf
+
+# Autorizations settings
+cp -r /tmp/worth* /var/ftp
+chown root:root /tmp/*
+
+cp -r /tmp/local.txt /home/local.txt
+
+echo -e "+++ [+] installing and configuring ssh  "
+apt-get install openssh-server -y
+
+echo -e "+++ installing netcat and nohup  "
+apt-get install netcat-traditional nohup -y
+
+# Autoriser FTP (port 21 pour le contrôle et port 20 pour les données)
+iptables -A INPUT -p tcp --dport 21 -j ACCEPT
+iptables -A INPUT -p tcp --dport 20 -j ACCEPT
+
+# Autoriser SSH (port 22)
+iptables -A INPUT -p tcp --dport 22 -j ACCEPT
+
+# Autoriser HTTP (port 80)
+iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+
+echo -e "+++ [+] program setup  "
+gcc /var/ftp/worth_it.c -o /var/ftp/worth
+
+sed -i '3c\127.0.0.1  linux1' /etc/hosts
+
+#Permissions setup
+chmod 600 /root/flag.txt
+chown root:root /root/flag.txt
+
+mv /tmp/worth* /var/ftp
+#chmod 4755 /var/ftp/worth_it.c
+chown root:root /var/ftp/worth_it.c
+chmod 644 /var/ftp/worth_it.c
+chmod u+s /var/ftp/worth
+
+#Starting services
+echo -e "+++ [+]Starting ftp and ssh  "
+service vsftpd start
+service ssh start
+
+#Initial access configuration
+useradd -m -p G0ld3n_he@rt adm1n -s /bin/rbash
+mkdir /home/adm1n/bin
+cp -r /var/ftp/worth* /home/adm1n
+
+echo -e "+++ [+] installing sudo command  "
+echo 'y' | apt-get install -y sudo
+
+echo "adm1n ALL=(root) /usr/bin/vi" >> /etc/sudoers #ajout des droits root sur la commande vi>
+
+ln -s /usr/bin/rm /home/adm1n/bin/
+ln -s /usr/bin/exit /home/adm1n/bin/
+ln -s /usr/bin/nc /home/adm1n/bin/
+ln -s /usr/bin/cat /home/adm1n/bin/
+ln -s /usr/bin/gcc /home/adm1n/bin/
+ln -s /usr/bin/ls /home/adm1n/bin/
+ln -s /usr/bin/sudo /home/adm1n/bin/
+
+echo -e '#!/bin/bash\ncd /home/adm1n\nnohup nc -lnvp 444 -e /bin/sh' > /home/adm1n/bin/shell
+chmod +x /home/adm1n/bin/shell
+
+echo "PATH=/home/adm1n/bin:$PATH" >> /home/adm1n/.bashrc
+
+su - adm1n 
+
+sed -i '$a if [ "$(whoami)" != "adm1n" ]; then\n    exec sudo -u adm1n -i\nfi' ~/.bashrc
+
+./home/adm1n/bin/shell
+
+echo "[+] Cleaning up"
+rm -rf /root/.cache
+rm -rf /root/.viminfo
+
+rm -rf /home/adm1n/.cache
+rm -rf /home/adm1n/.viminfo

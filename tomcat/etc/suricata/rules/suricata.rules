@@ -1,0 +1,1 @@
+alert tcp !$INF_NET any -> 10.10.2.1 22 (msg:"Unauthorized SSH connection to NAS"; flow:established,from_server;)

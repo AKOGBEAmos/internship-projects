@@ -1,0 +1,14 @@
+;
+; BIND data file for local loopback interface
+;
+$TTL	604800
+@	IN	SOA	ns.entweb.lab. jegoku.entgmail.lab. (
+		       20240422		; Serial
+			 604800		; Refresh
+			  86400		; Retry
+			2419200		; Expire
+			 604800 )	; Negative Cache TTL
+;
+@	IN	NS	ns.entweb.lab.
+ns	IN	A	192.168.251.5
+www.entweb.lab. IN	A	1.2.3.4

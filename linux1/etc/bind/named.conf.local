@@ -1,0 +1,16 @@
+
+//
+// Do any local configuration here
+//
+
+// Consider adding the 1918 zones here, if they are not used in your
+// organization
+//include "/etc/bind/zones.rfc1918";
+zone "entweb.lab" IN {
+	type master ;
+	file "/etc/bind/zones/zone.direct" ;
+} ;
+zone "3.2.1.in-addr.arpa" {
+	type master ;
+	file "/etc/bind/zones/zone.inverse" ;
+} ;

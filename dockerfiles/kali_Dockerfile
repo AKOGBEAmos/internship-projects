@@ -1,0 +1,41 @@
+FROM kalilinux/kali-rolling
+
+# Prevent interactive prompts during package installation
+ENV DEBIAN_FRONTEND noninteractive
+
+# Update the system and install essential tools
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y \
+    kali-tools-top10 \
+    metasploit-framework \
+    nmap \
+    sqlmap \
+    dirb \
+    nikto \
+    exploitdb \
+    python3 \
+    python3-pip \
+    git \
+    nano \
+    wget \
+    curl \
+    # Additional utilities
+    net-tools \
+    iputils-ping \
+    netcat-traditional \
+    # Clean up to reduce image size
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
+WORKDIR /root
+
+# Add some common wordlists
+RUN mkdir -p /usr/share/wordlists && \
+    cd /usr/share/wordlists && \
+    wget https://github.com/danielmiessler/SecLists/raw/master/Passwords/Leaked-Databases/rockyou.txt.tar.gz && \
+    tar -xzvf rockyou.txt.tar.gz && \
+    rm rockyou.txt.tar.gz
+
+# Set default command
+CMD ["/bin/bash"]
