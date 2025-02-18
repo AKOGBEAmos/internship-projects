@@ -2,4 +2,14 @@ ip addr add 192.168.250.1/30 dev eth0
 ip addr add 192.168.250.6/30 dev eth1
 ip addr add 192.168.2.254/24 dev eth2
 
+# Static routing configuration
+iptables -F 
+iptables -A FORWARD -p tcp --dport 22 -d 192.168.250.2 -j ACCEPT  # SSH to Tomcat
+iptables -A FORWARD -p tcp --dport 21 -d 192.168.250.2 -j ACCEPT # FTP port open
+iptables -A FORWARD -p tcp --dport 8080 -d 192.168.250.2 -j ACCEPT  # Tomcat Web
 
+iptables -A FORWARD -p tcp --dport 80 -d 192.168.250.5 -j ACCEPT  # Web Server
+iptables -A FORWARD -p tcp --dport 22 -d 192.168.250.5 -j ACCEPT  # SSH to webserver
+iptables -A FORWARD -p tcp --dport 21 -d 192.168.250.5 -j ACCEPT # FTP port open
+
+iptables -A FORWARD -m state --state RELATED,ESTABLISHED -j ACCEPT  # Allow responses

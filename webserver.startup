@@ -2,14 +2,13 @@ ifconfig eth0 192.168.250.5/30 netmask 255.255.255.252 up
 ip route add 192.168.2.0/24 via 192.168.250.6
 ip route add 192.168.250.0/30 via 192.168.250.6
 
-echo -e "+++ updating repos "
-apt-get update -y
+echo -e "+++ Updating repos"
+chmod 1777 /tmp
+apt-get update --allow-unauthenticated
 
-echo -e "+++ installing iptables "
+echo -e "+++ Installing iptables"
 apt install -y iptables
 
-
-cp -r /tmp/local.txt /home/local.txt
 
 echo -e "+++ [+] installing and configuring ssh "
 apt-get install openssh-server -y
@@ -17,15 +16,28 @@ apt-get install openssh-server -y
 echo -e "+++ installing netcat "
 apt-get install netcat-traditional -y
 
-# Autoriser SSH (port 22)
+# Autorize Scan and detection
+iptables -F
 iptables -A INPUT -p tcp --dport 22 -j ACCEPT
-
-# Autoriser HTTP (port 80)
 iptables -A INPUT -p tcp --dport 80 -j ACCEPT
+iptables -A INPUT -p tcp --dport 443 -j ACCEPT
+iptables -A INPUT -p tcp --dport 53 -j ACCEPT
+
+iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 
 sed -i '3c\127.0.0.1  webserver' /etc/hosts
 
+echo "Sh@ring4n" | zip -e -d root/root.txt
 #Permissions setup
-chmod 600 /root/flag.txt
-chown root:root /root/flag.txt
+chmod 600 /root/*
+chown root:root /root/*
+
+
+echo "[+] Cleaning up"
+rm -rf /root/.cache
+rm -rf /root/.viminfo
+
+rm -rf /home/adm1n/.cache
+rm -rf /home/adm1n/.viminfo
+
 

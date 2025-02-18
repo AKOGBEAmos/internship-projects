@@ -1,4 +1,4 @@
-package net.javaguides.springmvc.imageapp.config;
+package net.javaguides.springmvc.helloworld.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -8,12 +8,12 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
 /**
- * @author Sp1der
+ * @author Ramesh Fadatare
  */
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = { "net.javaguides.springmvc.imageapp" })
+@ComponentScan(basePackages = { "net.javaguides.springmvc.helloworld" })
 public class AppConfig {
 
 	@Bean

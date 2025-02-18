@@ -1,0 +1,7 @@
+home
+contact
+greetings
+greeting
+form
+about
+faq

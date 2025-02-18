@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Image App | javaguides.net</title>
+<title>Spring 5 MVC - Hello World Example | javaguides.net</title>
 </head>
 <body>
 	<h2>${helloWorld.message}</h2>
