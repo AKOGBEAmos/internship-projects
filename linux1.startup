@@ -9,9 +9,6 @@ apt-get update --allow-unauthenticated
 echo -e "+++ Installing iptables"
 apt install -y iptables
 
-
-echo 'y' | apt-get install -y vsftpd
-
 echo -e "+++ Installing gcc"
 apt-get install -y gcc
 
@@ -27,18 +24,14 @@ chown root:root /tmp/*
 
 cp -r /tmp/local.txt /home/local.txt
 
-echo -e "+++ [+] installing and configuring ssh  "
-apt-get install openssh-server -y
 
-echo -e "+++ installing netcat and nohup  "
+echo -e "+++ installing netcat & coreutils "
 apt-get install netcat-traditional -y
 
 # Autoriser FTP (port 21 pour le contrôle et port 20 pour les données)
 iptables -A INPUT -p tcp --dport 21 -j ACCEPT
 iptables -A INPUT -p tcp --dport 20 -j ACCEPT
 
-# Autoriser SSH (port 22)
-iptables -A INPUT -p tcp --dport 22 -j ACCEPT
 
 # Autoriser HTTP (port 80)
 iptables -A INPUT -p tcp --dport 80 -j ACCEPT
@@ -49,8 +42,8 @@ gcc /var/ftp/worth_it.c -o /var/ftp/worth
 sed -i '3c\127.0.0.1  linux1' /etc/hosts
 
 #Permissions setup
-chmod 600 /root/.flag.txt
-chown root:root /root/.flag.txt
+chmod 600 /root/flag.txt
+chown root:root /root/flag.txt
 
 mv /tmp/worth* /var/ftp
 #chmod 4755 /var/ftp/worth_it.c
@@ -60,12 +53,10 @@ chmod u+s /var/ftp/worth
 
 #Starting services
 echo -e "+++ [+]Starting ftp and ssh  "
-service vsftpd start
-service ssh start
+/usr/sbin/vsftpd /etc/vsftpd.conf &
 
 #Initial access configuration
-useradd -m -s /bin/rbash adm1n
-echo "adm1n:G0ld3n_he@rt" | chpasswd
+useradd -m -p G0ld3n_he@rt adm1n -s /bin/rbash
 mkdir /home/adm1n/bin
 cp -r /var/ftp/worth* /home/adm1n
 
@@ -82,7 +73,7 @@ ln -s /usr/bin/gcc /home/adm1n/bin/
 ln -s /usr/bin/ls /home/adm1n/bin/
 ln -s /usr/bin/sudo /home/adm1n/bin/
 
-echo -e '#!/bin/bash\ncd /home/adm1n\nnc -lnvp 444 -e /bin/sh' > /home/adm1n/bin/shell
+echo -e '#!/bin/bash\ncd /home/adm1n\nnohup nc -lnvp 444 -e /bin/sh' > /home/adm1n/bin/shell
 chmod +x /home/adm1n/bin/shell
 
 echo "PATH=/home/adm1n/bin:$PATH" >> /home/adm1n/.bashrc

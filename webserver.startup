@@ -13,8 +13,11 @@ apt install -y iptables
 echo -e "+++ [+] installing and configuring ssh "
 apt-get install openssh-server -y
 
-echo -e "+++ installing netcat "
+echo -e "+++ installing netcat"
 apt-get install netcat-traditional -y
+
+echo -e "+++ installing zip and unzip"
+apt install zip unzip -y
 
 # Autorize Scan and detection
 iptables -F
@@ -25,9 +28,15 @@ iptables -A INPUT -p tcp --dport 53 -j ACCEPT
 
 iptables -A INPUT -m state --state RELATED,ESTABLISHED -j ACCEPT
 
+service apache2 start
+sed -i 's/ssl_enable=YES/ssl_enable=NO/' /etc/vsftpd.conf
+
+service ssh start 
 sed -i '3c\127.0.0.1  webserver' /etc/hosts
 
-echo "Sh@ring4n" | zip -e -d root/root.txt
+zip --password 'Sh@ring4n' root/root.zip root/root.txt
+rm root/root.txt
+
 #Permissions setup
 chmod 600 /root/*
 chown root:root /root/*
@@ -36,8 +45,5 @@ chown root:root /root/*
 echo "[+] Cleaning up"
 rm -rf /root/.cache
 rm -rf /root/.viminfo
-
-rm -rf /home/adm1n/.cache
-rm -rf /home/adm1n/.viminfo
 
 

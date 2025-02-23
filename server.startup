@@ -4,12 +4,12 @@ ip route add 192.168.250.0/30 via 192.168.2.254
 
 echo "nameserver 8.8.8.8" | tee /etc/resolv.conf
 
+chmod 1777 /tmp
 apt-get update -y
 apt-get install whiptail 
 
 apt-get install -y ftp
 apt-get install -y nmap
 apt-get install openssh-server
-systemctl start ssh
-systemctl enable ssh
+service ssh start
 
